@@ -1,4 +1,3 @@
-
 # ChemNLP-Score: Prototipe Awal Sistem Penilaian Esai Kimia Berbasis NLP (Web Streamlit)
 
 # 1. Instalasi awal (jalankan di lingkungan Jupyter/Colab/terminal untuk setup)
@@ -8,11 +7,23 @@ import streamlit as st
 from transformers import pipeline
 from sentence_transformers import SentenceTransformer, util
 import nltk
-nltk.download('punkt')
-nltk.download('stopwords')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 import string
+
+# Cek dan unduh resource NLTK hanya jika belum tersedia
+def setup_nltk():
+    try:
+        nltk.data.find('tokenizers/punkt')
+    except LookupError:
+        nltk.download('punkt')
+
+    try:
+        nltk.data.find('corpora/stopwords')
+    except LookupError:
+        nltk.download('stopwords')
+
+setup_nltk()
 
 # 2. Persiapan Model NLP
 model = SentenceTransformer('paraphrase-MiniLM-L6-v2')  # Model semantic similarity
